@@ -1,0 +1,45 @@
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: budget-manager-back
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: budget-manager-back
+  template:
+    metadata:
+      labels:
+        app: budget-manager-back
+    spec:
+      containers:
+      - name: budget-manager-back
+        image: backend:0.1.0
+        env:
+          - name: POSTGRES_PASS
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets-ag
+                key: password
+          - name: POSTGRES_HOST
+            value: pg-service
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "256m"
+        ports:
+        - containerPort: 4001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: budget-manager-back
+  ports:
+  - port: 4000
+    targetPort: 4001

@@ -1,0 +1,38 @@
+services:
+  # Frontend service
+  budget-manager-front:
+    container_name: frontend
+    image: frontend:0.1.0
+    ports:
+      - 3000:3000
+    networks:
+      - common-network
+# Backend service
+  budget-manager-back:
+    container_name: backend
+    image: backend:0.1.0
+    ports:
+      - 4000:4000
+    environment:
+      - DBUSER=postgres
+      - DBPASS=mypass
+    networks:
+      - common-network
+# Database service
+  postgres:
+    container_name: postgres
+    image: postgres:14.6
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_PASSWORD=mypass
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - /users/marcelaobeso/Documents/coreCodeCamp/budget-manager/budget-manager-database/db:/docker-entrypoint-initdb.d
+    networks:
+      - common-network
+volumes:
+  pgdata:
+networks:
+  common-network:

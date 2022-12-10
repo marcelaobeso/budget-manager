@@ -1,0 +1,72 @@
+.origin_account-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  padding: 0.5rem;
+  margin: 1rem 0;
+  border-radius: 12px;
+  background-color: #939393;
+}
+
+.origin_account-item__center {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  flex: 1;
+}
+
+.origin_account-item__last {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-end;
+  flex-flow: column-reverse;
+  justify-content: flex-start;
+  flex: 1;
+}
+
+.origin_account-item h2 {
+  color: #3a3a3a;
+  font-size: 1rem;
+  flex: 1;
+  color: white;
+}
+
+.origin_account-item__balance {
+  font-size: 1rem;
+  font-weight: bold;
+  width: fit-content;
+  color: white;
+  background-color: #2d8800;
+  border: 1px solid white;
+  padding: 0.5rem;
+  border-radius: 12px;
+}
+.origin_account-item button {
+  font-size: 20px;
+}
+.origin_account-item button:hover {
+  font-size: 25px;
+  color: #ffffff;
+}
+
+@media (min-width: 580px) {
+  .origin_account-item__description {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1;
+  }
+
+  .origin_account-item__description h2 {
+    font-size: 1.25rem;
+  }
+
+  .origin_account-item__price {
+    font-size: 1.25rem;
+    padding: 0.5rem 1.5rem;
+  }
+}

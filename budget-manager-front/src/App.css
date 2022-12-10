@@ -1,0 +1,36 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.App-header {
+  background-color: #282c34;
+
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.icons {
+  top: 50%;
+  right: 15px;
+  width: auto;
+  display: inline-block;
+}
+
+.icons span {
+  margin: 0 10 0 10px;
+  cursor: pointer;
+  color: green;
+}
+
+.icons span:hover {
+  color: orange;
+}
+
+.done span {
+  text-decoration: line-through;
+  color: #75787e;
+}
