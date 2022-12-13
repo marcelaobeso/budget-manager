@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { viewFilterDatexpensesSetter } from "../../../store/slices/filterSlice/dateFilterSlice/dateFilterSlice";
 import filterItemsByDate from "../../../store/slices/filterSlice/dateFilterSlice/thunk";
-
+import styles from "./DateFilter.module.css";
 export const DateFilter = () => {
   const { expenseList } = useSelector((state) => state.expense);
   const dispatch = useDispatch();
@@ -17,8 +17,8 @@ export const DateFilter = () => {
     }
   };
   return (
-    <div>
-      <label>Date filter </label>
+    <div className="">
+      <label>Date </label>
       <input
         onChange={dateFilterChangeHandler}
         type="date"

@@ -10,7 +10,7 @@ export const addedItem = () => {
       ...getState().expense.expenseItem,
       idUser: getState().signUp.userInfo.idUser,
     };
-    console.log(newAddedExpense);
+
     await budgetApi.post("/expense/newexpense", newAddedExpense);
     dispatch(getAllExpenses());
     dispatch(getAllAccounts());
@@ -22,14 +22,14 @@ export const editEvent = () => {
       ...getState().expense.expenseItem,
       idUser: getState().signUp.userInfo.idUser,
     };
-    console.log(newAddedExpense);
+
     try {
-      await budgetApi.put(
+      const data = await budgetApi.put(
         `/expense/${newAddedExpense.id_expense}`,
         newAddedExpense
       );
     } catch (error) {
-      error.response.data.msg
+      typeof error.response.data.msg === String
         ? dispatch(setAlert(error.response.data.msg))
         : dispatch(
             setAlert(
@@ -57,7 +57,7 @@ export const deleteExpense = (id) => {
     } catch (error) {
       error.response.data.msg
         ? dispatch(setAlert(error.response.data.msg))
-        : dispatch(setAlert("unable to process this deletion"));
+        : dispatch(setAlert("unable to delete"));
       dispatch(addAlert());
     }
   };

@@ -72,7 +72,6 @@ const updateExpense = async (req, res = response) => {
   }
 };
 const deleteExpense = async (req, res = response) => {
-  console.log(req);
   try {
     const dbAns = await expenseDeletion(req);
     if (dbAns.answer === "ok") {

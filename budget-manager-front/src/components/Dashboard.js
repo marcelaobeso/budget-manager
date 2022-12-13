@@ -12,7 +12,8 @@ import {
   accountForm,
   transactionForm,
 } from "../store/slices/formSlice/formSlice";
-import { DateFilter } from "./Filters/DateFilter/DateFilter";
+import { Filters } from "./Filters/Filters";
+
 const Budget = () => {
   const { showAddExpenseForm: showExpense, showAddAccountForm: showAccount } =
     useSelector((state) => state.form);
@@ -29,6 +30,7 @@ const Budget = () => {
     <>
       <NavigationBar />
       {showAlert && <Alert variant="danger">{alert}</Alert>}
+      <Filters />
       <Container>
         <Row>
           <Col xs={12} sm={12} md={6} lg={6} xl={6} xxl={6}>
@@ -36,8 +38,9 @@ const Budget = () => {
               <AddExpense />
             ) : (
               <>
+                <p>Your accounts</p>
                 <Account />
-                <div className="text-center">
+                <div className="text-center plus">
                   <button onClick={ShowAddAccountHanddler}>
                     <FontAwesomeIcon icon={faPlus} />
                   </button>
@@ -51,8 +54,11 @@ const Budget = () => {
               <AddAccount />
             ) : (
               <>
+                <p style={{ display: "flex", justifyContent: "end" }}>
+                  Your transactions
+                </p>
                 <Transaction />
-                <div className="text-center">
+                <div className="text-center plus">
                   <button onClick={showAddExpenseHanddler}>
                     <FontAwesomeIcon icon={faPlus} />
                   </button>
@@ -62,7 +68,6 @@ const Budget = () => {
           </Col>
         </Row>
       </Container>
-      <DateFilter />
     </>
   );
 };

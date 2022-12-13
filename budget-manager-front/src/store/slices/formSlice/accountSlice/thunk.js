@@ -46,11 +46,10 @@ export const editAccount = () => {
       ...getState().account.newAccountItem,
       idUser: getState().signUp.userInfo.idUser,
     };
-    console.log(accountToUpdate);
+
     try {
       await budgetApi.put(`/account/${accountToUpdate.id}`, accountToUpdate);
     } catch (error) {
-      console.log(error);
       error.response.data.msg
         ? dispatch(setAlert(error.response.data.msg))
         : dispatch(

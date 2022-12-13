@@ -5,8 +5,10 @@ services:
     image: frontend:0.1.0
     ports:
       - 3000:3000
+    environment:
+      - REACT_APP_API_URL=http://localhost:4000/api
     networks:
-      - common-network
+      - common
 # Backend service
   budget-manager-back:
     container_name: backend
@@ -14,25 +16,30 @@ services:
     ports:
       - 4000:4000
     environment:
-      - DBUSER=postgres
-      - DBPASS=mypass
+      - PORT=4000 
+      - DBUSER=postgres 
+      - DBPASS=mypass 
+      - DBHOST=192.168.16.4
+      - DBPORT=5432 
+      - DBNAME=postgres 
+      - SECRET_JWT_SEED=lAs_ros@s_son_RoJas_Y_m@x_es_n@gro
     networks:
-      - common-network
+      - common
 # Database service
   postgres:
     container_name: postgres
-    image: postgres:14.6
+    image: postgres:14.5
     ports:
       - 5433:5432
     environment:
       - POSTGRES_PASSWORD=mypass
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - pgdata:/var/lib/postgresql/data
-      - /users/marcelaobeso/Documents/coreCodeCamp/budget-manager/budget-manager-database/db:/docker-entrypoint-initdb.d
+      - PGDATA:/var/lib/postgresql/data
+      - ./budget-manager-database/db:/docker-entrypoint-initdb.d
     networks:
-      - common-network
+      - common
 volumes:
-  pgdata:
+  PGDATA:
 networks:
-  common-network:
+  common:

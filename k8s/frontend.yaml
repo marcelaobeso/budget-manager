@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: budget-manager-front
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: budget-manager-front
@@ -14,7 +14,13 @@ spec:
     spec:
       containers:
       - name: budget-manager-front
-        image: susguzman/w2-frotend:0.1.0-alpine-gcp
+        image: marcelaobeso/budget-front:0.1.2
+        env:
+          - name: REACT_APP_API_URL
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets-ag
+                key: REACT_APP_API_URL
         resources:
           limits:
             memory: "256Mi"
@@ -31,5 +37,5 @@ spec:
   selector:
     app: budget-manager-front
   ports:
-  - port: 8080
+  - port: 3000
     targetPort: 80

@@ -40,34 +40,27 @@ const addExpense = async (req) => {
     id_currency,
     id_category,
   } = req;
+
   const { rows: currOriginAcc } = await pool.query(
     "SELECT id_currency FROM account WHERE id_account = $1",
     [origin_account]
   );
-  let { rows: currToAcc } = await pool.query(
-    "SELECT id_currency FROM account WHERE account_number = $1",
-    [to_account]
-  );
   let to_account_id = 0;
   let newToCurr = 0;
-  if (to_account === 0) {
-    const checkCashAccount = await pool.query(
-      "SELECT * FROM account where account_number = $1 and id_user = $2",
-      [to_account, idUser]
+  if (to_account == "") {
+    to_account_id = 0;
+  } else {
+    const checkIdToAccount = await pool.query(
+      "SELECT id_account FROM account where account_number = $1",
+      [to_account]
     );
-    if (checkCashAccount.rowCount === 0) {
-      return {
-        answer: "The account you are trying to transfer doesnt exist yet",
-      };
-    }
-    to_account_id = checkCashAccount.rows[0].id_account;
-    newToCurr = await pool.query(
-      "SELECT id_currency FROM account WHERE account_number = $1 and id_user = $2",
-      [to_account, idUser]
-    );
-    currToAcc = newToCurr.rows;
-  }
 
+    if (checkIdToAccount.rowCount === 0) {
+      return { answer: "the account you are trying to xfer to doesnt exist" };
+    } else {
+      to_account_id = checkIdToAccount.rows[0].id_account;
+    }
+  }
   const { rows: a } = await pool.query(
     "select id_currency from account  where id_account =$1 and id_user = $2",
     [origin_account, idUser]
@@ -98,7 +91,7 @@ const addExpense = async (req) => {
         amount,
         description,
         origin_account,
-        to_account,
+        to_account_id,
         id_currency,
         id_category,
         idUser,
@@ -108,17 +101,36 @@ const addExpense = async (req) => {
     return { answer: "ok" };
   }
   // EXPENSE *****************************************************************
-  if (expense_type === "Expense") {
-    if (!to_account) {
-      to_account_id = 0;
+
+  let { rows: currToAcc } = await pool.query(
+    "SELECT id_currency FROM account WHERE id_account = $1",
+    [to_account_id]
+  );
+  if (to_account === "0") {
+    const checkCashAccount = await pool.query(
+      "SELECT * FROM account where account_number = $1 and id_user = $2",
+      [to_account, idUser]
+    );
+    if (checkCashAccount.rowCount === 0) {
+      return {
+        answer: "The account you are trying to transfer doesnt exist yet",
+      };
     }
-    if (to_account_id === parseInt(origin_account)) {
+    to_account_id = checkCashAccount.rows[0].id_account;
+    newToCurr = await pool.query(
+      "SELECT id_currency FROM account WHERE account_number = $1 and id_user = $2",
+      [to_account, idUser]
+    );
+    currToAcc = newToCurr.rows;
+  }
+
+  if (expense_type === "Expense") {
+    if (to_account_id === parseInt(origin_account) && to_account) {
       return { answer: "trasnfers to the same account are not allowed" };
     }
-
     const checkToAccount = await pool.query(
-      "SELECT * FROM account where account_number = $1",
-      [to_account]
+      "SELECT * FROM account where id_account = $1",
+      [to_account_id]
     );
     if (checkToAccount.rowCount === 0) {
       return {

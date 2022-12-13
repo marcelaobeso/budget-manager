@@ -89,7 +89,7 @@ const deleteAccount = async (req, res = response) => {
   } catch (e) {
     res.status(500).json({
       ok: false,
-      msg: "Ups looks like something went really wrong",
+      msg: "Looks like we cannot delete this one, make sure there are no other expenses asociated",
     });
   }
 };

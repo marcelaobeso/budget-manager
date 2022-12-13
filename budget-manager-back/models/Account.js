@@ -17,13 +17,12 @@ const addAccount = async (req) => {
     "SELECT * FROM account WHERE account_number = $1",
     [account_number]
   );
-  console.log(account_number, name, balance, id_currency, idUser, type);
-  console.log(account_numberCheck.rowCount);
+
   const cashAccountCheck = await pool.query(
     "SELECT * FROM account WHERE id_user = $1 AND account_number = $2 ",
     [idUser, account_number]
   );
-  console.log(cashAccountCheck.rowCount);
+
   if (account_numberCheck.rowCount !== 0) {
     if (account_number === 0 && cashAccountCheck.rowCount !== 0) {
       return {
@@ -46,12 +45,12 @@ const addAccount = async (req) => {
 const accountUpdate = async (req) => {
   const { account_number, name, balance, id_currency, type } = req.body;
   const idAccount = req.params.id;
-  console.log(account_number, name, balance, id_currency, type, idAccount);
+
   const idAccountCheck = await pool.query(
     "SELECT * FROM account WHERE id_account = $1 AND account_number = $2",
     [parseInt(idAccount), parseInt(account_number)]
   );
-  console.log(idAccountCheck);
+
   if (idAccountCheck.rowCount === 0) {
     return { answer: "account doesnt exist here or ir doesnt match" };
   }

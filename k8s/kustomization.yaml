@@ -1,0 +1,17 @@
+namespace: app1
+
+resources:
+  - database.yaml
+  - backend.yaml
+  - frontend.yaml
+  - namespace.yaml
+
+configMapGenerator:
+- name: pg-configmap
+  files:
+  - init_postgres.sql
+
+secretGenerator:
+- name: pg-secrets-ag
+  envs:
+  - .env

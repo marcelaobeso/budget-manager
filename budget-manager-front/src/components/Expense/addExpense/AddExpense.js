@@ -140,9 +140,9 @@ export const AddExpense = () => {
       return;
     }
     if (activateUpdate) {
-      let notUpdatedList = expenseList.filter(
-        (item) => item.id !== expenseItem.id
-      );
+      // let notUpdatedList = expenseList.filter(
+      //   (item) => item.id !== expenseItem.id
+      // );
       dispatch(editEvent());
       // dispatch(newNotDeletedExpenseList(notUpdatedList));
       // dispatch(addedItem());
@@ -161,14 +161,14 @@ export const AddExpense = () => {
       dispatch(addExpenseItem(expenseCleared));
       dispatch(updateEnabler(false));
     } else {
-      if (expenseItem.to_account === "") {
-        dispatch(
-          addExpenseItem({
-            ...expenseItem,
-            to_account: 0,
-          })
-        );
-      }
+      // if (expenseItem.to_account === "") {
+      //   dispatch(
+      //     addExpenseItem({
+      //       ...expenseItem,
+      //       to_account: 0,
+      //     })
+      //   );
+      // }
 
       dispatch(addedItem());
       const expenseCleared = {

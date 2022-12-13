@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pg-pv-claim
+  labels:
+    app: pg-db
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pg-db
+spec:
+  selector:
+    matchLabels:
+      app: pg-db
+  template:
+    metadata:
+      labels:
+        app: pg-db
+    spec:
+      volumes:
+      - name: pg-persistent-storage
+        persistentVolumeClaim:
+          claimName: pg-pv-claim
+      - name: pg-cm-storage
+        configMap:
+          name: pg-configmap
+      containers:
+      - name: pg-db
+        image: postgres:14.5
+        env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets-ag
+                key: DBPASS
+          - name: PGDATA
+            value: "/var/lib/postgresql/data/pgdata"
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "512m"
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: pg-persistent-storage
+          mountPath: /var/lib/postgresql/data
+        - name: pg-cm-storage
+          mountPath: /docker-entrypoint-initdb.d
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pg-service
+spec:
+  type: ClusterIP
+  selector:
+    app: pg-db
+  ports:
+  - port: 5432
+    targetPort: 5432

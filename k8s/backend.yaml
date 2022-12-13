@@ -1,11 +1,10 @@
 
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: budget-manager-back
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: budget-manager-back
@@ -16,21 +15,46 @@ spec:
     spec:
       containers:
       - name: budget-manager-back
-        image: backend:0.1.0
+        image: marcelaobeso/budget-back:0.1.2
         env:
-          - name: POSTGRES_PASS
+          - name: DBPASS
             valueFrom:
               secretKeyRef:
                 name: pg-secrets-ag
-                key: password
-          - name: POSTGRES_HOST
+                key: DBPASS
+          - name: PORT
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets-ag
+                key: PORT
+          - name: DBUSER
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets-ag
+                key: DBUSER
+          - name: DBPORT
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets-ag
+                key: DBPORT
+          - name: DBNAME
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets-ag
+                key: DBNAME
+          - name: SECRET_JWT_SEED
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets-ag
+                key: SECRET_JWT_SEED
+          - name: DBHOST
             value: pg-service
         resources:
           limits:
             memory: "256Mi"
             cpu: "256m"
         ports:
-        - containerPort: 4001
+        - containerPort: 4000
 ---
 apiVersion: v1
 kind: Service
@@ -42,4 +66,4 @@ spec:
     app: budget-manager-back
   ports:
   - port: 4000
-    targetPort: 4001
+    targetPort: 4000

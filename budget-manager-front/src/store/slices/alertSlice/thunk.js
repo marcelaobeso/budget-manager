@@ -5,6 +5,6 @@ export const addAlert = () => {
     dispatch(triggerAlert(true));
     setTimeout(() => {
       dispatch(triggerAlert(false));
-    }, 3000);
+    }, 3001);
   };
 };
