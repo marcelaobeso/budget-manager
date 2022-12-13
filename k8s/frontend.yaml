@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: budget-manager-front
-        image: marcelaobeso/budget-front:0.1.2
+        image: marcelaobeso/budget-front-amd:0.1.0
         env:
           - name: REACT_APP_API_URL
             valueFrom:

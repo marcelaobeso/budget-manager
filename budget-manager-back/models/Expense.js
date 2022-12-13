@@ -148,10 +148,10 @@ const addExpense = async (req) => {
     // now we add that money to the to_account if there is one
 
     await pool.query(
-      "UPDATE account SET balance  = balance - exchange(dollars_exchange($1,$2), $3) WHERE id_account = $4;",
+      "UPDATE account SET balance  = balance + exchange(dollars_exchange($1,$2), $3) WHERE id_account = $4;",
       [amount, id_currency, currToAcc[0].id_currency, to_account_id]
     );
-
+    // and we add the other info of the expense
     await pool.query(
       "INSERT INTO expense(expense_type, expense_date, AMOUNT, DESCRIPTION, ORIGIN_ACCOUNT, TO_ACCOUNT, ID_CURRENCY, ID_CATEGORY, ID_USER) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9);",
       [

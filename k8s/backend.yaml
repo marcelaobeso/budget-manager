@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: budget-manager-back
-        image: marcelaobeso/budget-back:0.1.2
+        image: marcelaobeso/budget-back-amd:0.1.0
         env:
           - name: DBPASS
             valueFrom:
