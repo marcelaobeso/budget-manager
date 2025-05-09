@@ -1,6 +1,6 @@
 import { Button, Form, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import {
   accountValidator,
   addExpenseItem,
@@ -22,7 +22,7 @@ import { AmountMoneyInput } from "../../UI/AmountMoneyInput";
 import { CurrencySelect } from "../../UI/CurrencySelect";
 import styles from "./AddExpense.module.css";
 import { useEffect } from "react";
-import { setAllCategories } from "../../../store/slices/formSlice/categorySlice/categorySlice";
+// import { setAllCategories } from "../../../store/slices/formSlice/categorySlice/categorySlice";
 import { addCategoryTypes } from "../../../store/slices/formSlice/categorySlice/thunk";
 
 export const AddExpense = () => {
@@ -291,8 +291,6 @@ export const AddExpense = () => {
         <label>Date</label>
         <input
           type="date"
-          min="2018-01-01"
-          max="2025-01-01"
           value={expenseItem.expense_date}
           onChange={dateChangeHandler}
         />

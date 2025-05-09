@@ -22,8 +22,6 @@ export const DateFilter = () => {
       <input
         onChange={dateFilterChangeHandler}
         type="date"
-        min="2018-01-01"
-        max="2025-01-01"
       />
     </div>
   );

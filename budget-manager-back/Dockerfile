@@ -13,18 +13,12 @@
 
 FROM node:18-alpine3.15
 
-ENV PORT=4000 \
-    DBUSER=postgres \
-    DBPASS=mypass \
-    DBHOST=172.17.0.4 \
-    DBPORT=5432 \
-    DBNAME=postgres \
-    SECRET_JWT_SEED=lAs_ros@s_son_RoJas_Y_m@x_es_n@gro
-
 COPY . /opt/app
 
 WORKDIR /opt/app
 
 RUN npm install
+
+EXPOSE 4000
 
 CMD ["npm", "start"]
